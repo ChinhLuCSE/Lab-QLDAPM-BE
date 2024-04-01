@@ -1,0 +1,25 @@
+version: '3.9'
+
+networks:
+  gateway-network:
+    # external: true
+
+volumes:
+  postgresdb-data:
+
+
+services:
+  local-postgres:
+    image: postgres:15.2
+    restart: always
+    container_name: local-postgres-qldapm
+    ports:
+      - 5433:5432
+    volumes:
+      - postgresdb-data:/var/lib/postgresql/data
+    environment:
+      - TZ=Asia/Ho_Chi_Minh
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=abc12345
+    networks:
+      - gateway-network
