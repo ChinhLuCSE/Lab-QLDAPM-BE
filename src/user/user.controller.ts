@@ -10,12 +10,13 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
+  @UseGuards(AuthGuard)
   async getAllUsers(): Promise<User[]> {
     return await this.userService.users({});
   }
 
-  @UseGuards(AuthGuard)
   @Get('me')
+  @UseGuards(AuthGuard)
   async getCurrentUser(@Request() req): Promise<User> {
     const user = req.user;
     return (

@@ -18,9 +18,45 @@ model Event {
   id          Int   @id @default(autoincrement())
   name        String?
   description String
+  creatorId  String 
+
   startDate   DateTime
   endDate     DateTime
   createdAt   DateTime @default(now())
+
+  creator User @relation(fields: [creatorId], references: [id])
+  participants EventParticipant[]
+
+  denied EventDenied?
+  approved EventApproved?
+}
+
+model EventDenied {
+  id        Int @id @default(autoincrement())
+  eventId   Int @unique
+
+  createdAt DateTime @default(now())
+
+  event Event? @relation(fields: [eventId], references: [id])
+}
+
+model EventApproved {
+  id        Int @id @default(autoincrement())
+  eventId   Int @unique
+
+  createdAt DateTime @default(now())
+
+  event Event? @relation(fields: [eventId], references: [id])
+}
+
+model EventParticipant {
+  id        Int @id @default(autoincrement())
+  eventId   Int
+  userId    String
+  createdAt DateTime @default(now())
+
+  event Event @relation(fields: [eventId], references: [id])
+  user User @relation(fields: [userId], references: [id])
 }
 
 model User {
@@ -28,7 +64,11 @@ model User {
   username  String   @unique
   password  String
   createdAt DateTime @default(now())
+
   roles     UserRole[] 
+  createdEvents    Event[]
+  participatedEvents EventParticipant[]
+
 }
 
 model Role {
