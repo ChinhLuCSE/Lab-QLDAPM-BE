@@ -6,8 +6,9 @@ const prisma = new PrismaClient();
 
 //seed roles in Role enumtype
 async function main() {
-  const promises = [seedRoles(), seedUsers(), seedEvents()];
-  await Promise.all(promises);
+  await seedRoles();
+  await seedUsers();
+  await seedEvents();
 }
 
 async function seedRoles() {
