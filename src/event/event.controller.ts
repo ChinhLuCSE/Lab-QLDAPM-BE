@@ -37,7 +37,11 @@ export class EventController {
       description: body.description,
       startDate: body.startDate,
       endDate: body.endDate,
-      creator: req.user.sub,
+      creator: {
+        connect: {
+          id: req.user.sub,
+        },
+      },
     };
     return this.eventService.createEvent(data);
   }
