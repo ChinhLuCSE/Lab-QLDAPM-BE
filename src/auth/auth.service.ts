@@ -14,9 +14,10 @@ export class AuthService {
 
   async signIn(
     signinAuthDto: SigninAuthDto,
-  ): Promise<{ access_token: string }> {
+  ): Promise<{ access_token: string; role: number }> {
     const user = await this.prisma.user.findFirst({
       where: { username: signinAuthDto.username },
+      include: { roles: true },
     });
 
     if (!user) {
@@ -29,10 +30,10 @@ export class AuthService {
     if (!passwordMatch) {
       throw new UnauthorizedException();
     }
-
     const payload = { sub: user.id, username: user.username };
     return {
       access_token: await this.jwtService.signAsync(payload),
+      role: user.roles[0].roleId,
     };
   }
 

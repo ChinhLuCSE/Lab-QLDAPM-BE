@@ -19,11 +19,8 @@ export class UserController {
   @UseGuards(AuthGuard)
   async getCurrentUser(@Request() req): Promise<User> {
     const user = req.user;
-    return (
-      await this.userService.users({
-        where: { id: user.id },
-        include: { roles: { include: { role: true } } },
-      })
-    )[0];
+    return await this.userService.user({
+      id: user.sub,
+    });
   }
 }
