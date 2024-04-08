@@ -43,7 +43,9 @@ export class EventController {
         },
       },
     };
-    return this.eventService.createEvent(data);
+
+    const res = this.eventService.createEvent(data);
+    return { ...res, status: 'PENDING' };
   }
 
   @Post('/:id/approve')
