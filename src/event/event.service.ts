@@ -90,7 +90,8 @@ export class EventService {
       if (userRoles.includes(RoleType.ORGANIZER)) {
         return event.creatorId === userId;
       }
-      return event.approved;
+      console.log(event);
+      return event.status === 'APPROVED';
     });
 
     const finalEvents = eventFilterByRole;
