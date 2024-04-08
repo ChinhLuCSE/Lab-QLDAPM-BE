@@ -88,7 +88,7 @@ export class EventService {
         return true;
       }
       if (userRoles.includes(RoleType.ORGANIZER)) {
-        return event.creator.id === userId;
+        return event.creatorId === userId;
       }
       return event.approved;
     });
